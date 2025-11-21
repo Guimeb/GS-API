@@ -126,4 +126,76 @@ A API segue o padrão RESTful (verbos HTTP e status codes).
 
 # 5. Diagrama do projeto
 
-# Diagrama
+## Diagrama de classes
+```mermaid
+classDiagram
+    class User {
+        +int Id
+        +String Name
+        +String Email
+        +String Role (Aluno/Prof)
+        +DateTime RegistrationDate
+    }
+    class Track {
+        +int Id
+        +String Name
+        +String Level
+        +int WorkloadHours
+    }
+    class Competence {
+        +int Id
+        +String Name
+        +String Category
+        +String Description
+    }
+    class Enrollment {
+        +int Id
+        +int UserId
+        +int TrackId
+        +String Status
+        +DateTime EnrollmentDate
+    }
+
+    User "1" -- "*" Enrollment : "possui"
+    Track "1" -- "*" Enrollment : "oferece"
+    Track "*" -- "*" Competence : "requer"
+```
+## Fluxograma
+```mermaid
+flowchart TD
+    U[Usuário] --> Client[Cliente REST/Swagger]
+    
+    Client --> API[ASP.NET Core API]
+
+    API --> Controllers
+    
+    subgraph Controllers
+        UserC[UsersController]
+        TrackC[TracksController]
+        CompetenceC[CompetencesController]
+        EnrollmentC[EnrollmentsController]
+    end
+
+    Controllers --> Services
+    subgraph Services
+        UserS[UserService]
+        TrackS[TrackService]
+        CompetenceS[CompetenceService]
+        EnrollmentS[EnrollmentService]
+    end
+
+    Services --> Repos
+    subgraph Repos
+        UserRepo[UserRepository]
+        TrackRepo[TrackRepository]
+        CompetenceRepo[CompetenceRepository]
+        EnrollmentRepo[EnrollmentRepository]
+    end
+
+    Repos --> DB[(PostgreSQL Database)]
+
+    DB --> Repos
+    Repos --> Services
+    Services -- DTO Response --> Controllers
+    Controllers -- HTTP 201/400 --> Client
+```
