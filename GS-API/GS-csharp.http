@@ -1,0 +1,6 @@
+@GS_csharp_HostAddress = http://localhost:5099
+
+GET {{GS_csharp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
