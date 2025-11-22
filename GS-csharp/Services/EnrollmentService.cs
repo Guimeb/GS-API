@@ -59,7 +59,7 @@ namespace GS_csharp.Services
 
             var createdEnrollment = await _enrollmentRepo.GetByIdAsync(enrollment.Id);
 
-            return (MapToResponseDto(createdEnrollment!), string.Empty);
+            return (MapToResponseDto(createdEnrollment!), null);
         }
 
         public async Task<bool> DeleteEnrollmentAsync(int id)

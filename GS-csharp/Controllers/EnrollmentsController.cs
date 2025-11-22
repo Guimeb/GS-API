@@ -22,10 +22,11 @@ namespace GS_csharp.Controllers
 
             var (enrollmentDto, error) = await _enrollmentService.CreateEnrollmentAsync(dto);
 
-            if (error != null)
+            if (!string.IsNullOrEmpty(error))
             {
                 return BadRequest(error);
             }
+
 
             var newUrl = $"/api/v1/enrollments/{enrollmentDto.Id}";
             return Created(newUrl, enrollmentDto);
